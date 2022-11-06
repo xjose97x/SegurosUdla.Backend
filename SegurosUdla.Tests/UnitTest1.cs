@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -31,9 +32,10 @@ public class Tests
         Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
 
 
+        var guid = Guid.NewGuid();
         var registerResult = await client.PostAsJsonAsync("api/auth/register", new
         {
-            username = "alain2",
+            username = $"alain{guid}",
             password = "Alain123!"
         });
 
@@ -41,7 +43,7 @@ public class Tests
 
         var loginResult = await client.PostAsJsonAsync("api/auth/login", new
         {
-            username = "alain2",
+            username = $"alain{guid}",
             password = "Alain123!"
         });
 
@@ -68,9 +70,10 @@ public class Tests
         Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
 
 
+        var guid = Guid.NewGuid();
         var registerResult = await client.PostAsJsonAsync("api/auth/register", new
         {
-            username = "alain3",
+            username = $"alain{guid}",
             password = "Alain123!"
         });
 
@@ -82,7 +85,7 @@ public class Tests
             var startTime = DateTime.Now;
             var loginResult = await client.PostAsJsonAsync("api/auth/login", new
             {
-                username = "alain3",
+                username = $"alain{guid}",
                 password = "Alain123!"
             });
             var endTime = DateTime.Now;
